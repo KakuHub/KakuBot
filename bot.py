@@ -13,13 +13,14 @@ things = {}
 async def on_ready():
     print("nice", client.user)
 
-@nextcord.slash_command()
+@client.slash_command()
 async def play(ctx: nextcord.Interaction):
     if ctx.user.voice.channel is None:
         return await ctx.send("no vc")
-    
+
     vc = await ctx.user.voice.channel.connect()
     things[ctx.channel.id] = vc
+    await ctx.response.send_message("ðŸ¤“")
 
     while True:
         try:
@@ -34,14 +35,27 @@ async def play(ctx: nextcord.Interaction):
             traceback.print_exc()
             break
 
-@nextcord.slash_command()
+@client.slash_command()
 async def pause(ctx: nextcord.Interaction):
     if ctx.user.voice.channel is None:
         return await ctx.send("no vc")
-    
+
     if things[ctx.channel_id].is_paused():
-        return things[ctx.channel_id].resume()
-    
+        return await ctx.response.send_message("I'm already paused DUMBASS LMAO ðŸ¤“")
+
     things[ctx.channel.id].pause()
+    return await ctx.response.send_message("ðŸ¤“")
+
+@client.slash_command()
+async def resume(ctx: nextcord.Interaction):
+    if ctx.user.voice.channel is None:
+        return await ctx.send("no vc")
+
+    if things[ctx.channel_id].is_playing():
+        return await ctx.response.send_message("I'm already playing DUMBASS LMAO ðŸ¤“")
+
+    if things[ctx.channel_id].is_paused():
+        things[ctx.channel_id].resume()
+        return await ctx.response.send_message("ðŸ¤“")
 
 client.run("token")
