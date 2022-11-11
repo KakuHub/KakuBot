@@ -18,7 +18,7 @@ cur_song = ""
 
 @client.slash_command(description="Plays music in your voice channel")
 async def play(ctx: nextcord.Interaction):
-    if ctx.user.voice.channel is None:
+    if ctx.user.voice is None:
         return await ctx.send("no vc? <:nobitches:953506027528130630>")
     
     try: vc = await ctx.user.voice.channel.connect()
