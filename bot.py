@@ -45,8 +45,8 @@ async def stop(ctx: nextcord.Interaction):
     if ctx.user.voice is None:
         return await ctx.response.send_message("I'm not in a vc DUMBASS LMAO <:goofylittleshit:1028545843449565204>")
 
-    await things[ctx.voice.channel.id].disconnect()
-    del things[ctx.voice.channel.id]
+    await things[ctx.user.voice.channel.id].disconnect()
+    del things[ctx.user.voice.channel.id]
     return await ctx.response.send_message("LEAVING NOW! <:NOW:1036428369782378567>")
 
 @client.slash_command(description="Pauses the current song")
